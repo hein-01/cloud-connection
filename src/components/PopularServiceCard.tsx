@@ -445,7 +445,7 @@ export const PopularServiceCard = ({ service }: PopularServiceCardProps) => {
       <img 
         src={iconUrl} 
         alt={methodType}
-        className="w-5 h-5 object-contain"
+        className="w-full h-full object-contain"
       />
     );
   };
@@ -799,7 +799,7 @@ export const PopularServiceCard = ({ service }: PopularServiceCardProps) => {
                   {paymentMethods.map((payment, index) => (
                     <div 
                       key={index}
-                      className="flex items-center justify-center p-2 rounded border-2 border-gray-300 shadow-md bg-white hover:shadow-lg transition-shadow"
+                      className="flex items-center justify-center p-2 rounded border-2 border-gray-300 shadow-md bg-white hover:shadow-lg transition-shadow w-[60px] h-[30px]"
                       title={payment.method_type}
                     >
                       {getPaymentMethodIcon(payment.method_type)}
@@ -819,7 +819,7 @@ export const PopularServiceCard = ({ service }: PopularServiceCardProps) => {
                   {paymentMethods.map((payment, index) => (
                     <div 
                       key={index}
-                      className="flex items-center justify-center p-2 rounded border-2 border-gray-300 shadow-md bg-white hover:shadow-lg transition-shadow"
+                      className="flex items-center justify-center p-2 rounded border-2 border-gray-300 shadow-md bg-white hover:shadow-lg transition-shadow w-[60px] h-[30px]"
                       title={payment.method_type}
                     >
                       {getPaymentMethodIcon(payment.method_type)}
