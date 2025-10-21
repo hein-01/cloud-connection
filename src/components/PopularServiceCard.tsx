@@ -411,13 +411,15 @@ export const PopularServiceCard = ({ service }: PopularServiceCardProps) => {
   };
 
   const getPaymentMethodIcon = (methodType: string) => {
-    const normalizedType = methodType.toLowerCase();
+    const normalizedType = methodType.toLowerCase().replace(/[\s-]/g, '');
     
     // Map payment method types to image URLs
     const iconMap: Record<string, string> = {
+      'cashonarrival': 'https://raw.githubusercontent.com/hein-01/icons-payments/733556525af25cdcfc075e40f6f2995c3c1bba81/Cash-on-arrival.jpg',
       'cash': 'https://raw.githubusercontent.com/hein-01/icons-payments/733556525af25cdcfc075e40f6f2995c3c1bba81/Cash-on-arrival.jpg',
       'truemoney': 'https://raw.githubusercontent.com/hein-01/icons-payments/733556525af25cdcfc075e40f6f2995c3c1bba81/true-money.jpg',
       'kpay': 'https://raw.githubusercontent.com/hein-01/icons-payments/733556525af25cdcfc075e40f6f2995c3c1bba81/kbz-pay.jpg',
+      'kbzpay': 'https://raw.githubusercontent.com/hein-01/icons-payments/733556525af25cdcfc075e40f6f2995c3c1bba81/kbz-pay.jpg',
       'paylah': 'https://raw.githubusercontent.com/hein-01/icons-payments/733556525af25cdcfc075e40f6f2995c3c1bba81/pay-lah.jpg',
       'grabpay': 'https://raw.githubusercontent.com/hein-01/icons-payments/733556525af25cdcfc075e40f6f2995c3c1bba81/grab-pay.jpg',
     };
@@ -430,6 +432,9 @@ export const PopularServiceCard = ({ service }: PopularServiceCardProps) => {
         break;
       }
     }
+    
+    // Log for debugging
+    console.log('Payment method:', methodType, '-> Normalized:', normalizedType, '-> Icon URL:', iconUrl || 'NOT FOUND');
     
     // Default to wallet icon if no match found
     if (!iconUrl) {
