@@ -7,39 +7,28 @@ export interface ServicePaymentMethod {
 }
 
 export async function fetchServicePaymentMethods(
-  serviceId: number
+  serviceId: string
 ): Promise<ServicePaymentMethod[]> {
   try {
     console.log('=== fetchServicePaymentMethods called ===');
     console.log('Input serviceId:', serviceId);
     
-    // Step 1: Get all business_ids that offer this service
-    const { data: businessResources, error: resourceError } = await supabase
-      .from('business_resources')
-      .select('business_id')
-      .eq('service_id', serviceId);
+    // Extract UUID from service ID if it has a prefix
+    const extractUUID = (id: string) => {
+      const parts = id.split('_');
+      const lastPart = parts[parts.length - 1];
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      return uuidRegex.test(lastPart) ? lastPart : id;
+    };
 
-    console.log('Business resources query result:', { businessResources, resourceError });
-
-    if (resourceError) {
-      console.error('Error fetching business resources:', resourceError);
-      return [];
-    }
-
-    if (!businessResources || businessResources.length === 0) {
-      console.log('No business resources found for service_id:', serviceId);
-      return [];
-    }
-
-    // Extract unique business IDs
-    const businessIds = [...new Set(businessResources.map(r => r.business_id))];
-    console.log('Unique business IDs:', businessIds);
-
-    // Step 2: Fetch payment methods for all these businesses
+    const businessId = extractUUID(serviceId);
+    console.log('Extracted businessId:', businessId);
+    
+    // Query payment methods directly using the business_id
     const { data: paymentMethods, error: paymentError } = await supabase
       .from('payment_methods')
       .select('method_type, account_name, account_number')
-      .in('business_id', businessIds);
+      .eq('business_id', businessId);
 
     console.log('Payment methods query result:', { paymentMethods, paymentError });
 
@@ -49,7 +38,7 @@ export async function fetchServicePaymentMethods(
     }
 
     if (!paymentMethods || paymentMethods.length === 0) {
-      console.log('No payment methods found for business IDs:', businessIds);
+      console.log('No payment methods found for business ID:', businessId);
       return [];
     }
 
