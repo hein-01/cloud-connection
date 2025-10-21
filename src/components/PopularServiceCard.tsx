@@ -413,21 +413,36 @@ export const PopularServiceCard = ({ service }: PopularServiceCardProps) => {
   const getPaymentMethodIcon = (methodType: string) => {
     const normalizedType = methodType.toLowerCase();
     
-    // Map payment method types to icons
-    if (normalizedType.includes('cash')) {
-      return <Banknote className="w-5 h-5" />;
-    } else if (normalizedType.includes('kbz') || normalizedType.includes('kbzpay')) {
-      return <Smartphone className="w-5 h-5" />;
-    } else if (normalizedType.includes('wave') || normalizedType.includes('wavepay')) {
-      return <Smartphone className="w-5 h-5" />;
-    } else if (normalizedType.includes('card') || normalizedType.includes('credit') || normalizedType.includes('debit')) {
-      return <CreditCard className="w-5 h-5" />;
-    } else if (normalizedType.includes('wallet') || normalizedType.includes('pay')) {
-      return <Wallet className="w-5 h-5" />;
-    } else {
-      // Default icon for unknown payment methods
+    // Map payment method types to image URLs
+    const iconMap: Record<string, string> = {
+      'cash': 'https://raw.githubusercontent.com/hein-01/icons-payments/733556525af25cdcfc075e40f6f2995c3c1bba81/Cash-on-arrival.jpg',
+      'truemoney': 'https://raw.githubusercontent.com/hein-01/icons-payments/733556525af25cdcfc075e40f6f2995c3c1bba81/true-money.jpg',
+      'kpay': 'https://raw.githubusercontent.com/hein-01/icons-payments/733556525af25cdcfc075e40f6f2995c3c1bba81/kbz-pay.jpg',
+      'paylah': 'https://raw.githubusercontent.com/hein-01/icons-payments/733556525af25cdcfc075e40f6f2995c3c1bba81/pay-lah.jpg',
+      'grabpay': 'https://raw.githubusercontent.com/hein-01/icons-payments/733556525af25cdcfc075e40f6f2995c3c1bba81/grab-pay.jpg',
+    };
+    
+    // Find matching icon URL
+    let iconUrl = '';
+    for (const [key, url] of Object.entries(iconMap)) {
+      if (normalizedType.includes(key)) {
+        iconUrl = url;
+        break;
+      }
+    }
+    
+    // Default to wallet icon if no match found
+    if (!iconUrl) {
       return <Wallet className="w-5 h-5" />;
     }
+    
+    return (
+      <img 
+        src={iconUrl} 
+        alt={methodType}
+        className="w-5 h-5 object-contain"
+      />
+    );
   };
 
   const parseServicesCatalog = (catalogString?: string | null) => {
