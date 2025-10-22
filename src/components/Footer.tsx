@@ -23,7 +23,7 @@ const Footer = () => {
                 href="https://www.booknget.asia" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-sm font-medium text-secondary hover:underline"
+                className="text-sm font-medium text-[hsl(var(--booknget-brand))] hover:underline"
               >
                 BooknGet.asia
               </a>

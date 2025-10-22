@@ -91,6 +91,8 @@ All colors MUST be HSL.
     --form-field-shadow: 254 30% 95%;
     --form-upload-bg: 254 100% 98%;
     --form-upload-border: 254 60% 85%;
+    
+    --booknget-brand: 45 93% 61%;
   }
 
   .dark {
