@@ -25,9 +25,10 @@ const Footer = () => {
                 href="https://www.booknget.asia" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-sm font-medium text-[hsl(var(--booknget-brand))] hover:underline"
+                className="text-sm font-medium hover:underline"
               >
-                BooknGet.asia
+                <span className="text-foreground">BooknGet</span>
+                <span className="text-green-600">.asia</span>
               </a>
             </div>
             
