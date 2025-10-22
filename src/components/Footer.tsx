@@ -19,6 +19,8 @@ const Footer = () => {
             <div className="flex items-center justify-center space-x-6 mb-4">
               <span className="text-sm font-medium text-primary">YaYou App</span>
               
+              <span className="text-sm text-muted-foreground">|</span>
+              
               <a 
                 href="https://www.booknget.asia" 
                 target="_blank" 
