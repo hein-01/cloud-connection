@@ -27,7 +27,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="text-sm font-medium hover:underline"
               >
-                <span className="text-foreground">BooknGet</span>
+                <span className="text-muted-foreground">BooknGet</span>
                 <span className="text-green-600">.asia</span>
               </a>
             </div>
