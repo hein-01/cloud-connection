@@ -12,7 +12,7 @@ const Footer = () => {
             </div>
             
             <p className="text-xs text-muted-foreground mb-3">
-              Sister platforms offering services across Thailand and Malaysia.
+              Sister platforms offering services across Thailand and SG.
             </p>
             
             {/* Service Logos */}
@@ -22,18 +22,18 @@ const Footer = () => {
               <span className="text-sm text-muted-foreground">|</span>
               
               <a 
-                href="https://www.booknget.asia" 
+                href="https://www.golocalsg.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-sm font-medium hover:underline"
               >
-                <span className="text-muted-foreground">BooknGet</span>
-                <span className="text-green-600">.asia</span>
+                <span className="text-muted-foreground">GoLocalSG</span>
+                <span className="text-green-600">.com</span>
               </a>
             </div>
             
             <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
-              GoLocalSG.com is your AI-powered platform and mobile app for booking services, offering your own services to earn money, discovering products, and managing your business online.
+              GoLocalSG.com and MyanShops(YaYou App) are your AI-powered platforms and mobile app for booking services, offering your own services to earn money, discovering products, and managing your business online.
             </p>
           </div>
         </div>
