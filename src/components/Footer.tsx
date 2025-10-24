@@ -32,7 +32,7 @@ const Footer = () => {
               </a>
             </div>
             
-            <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xs text-muted-foreground max-w-2xl mx-auto">
               GoLocalSG.com and MyanShops(YaYou App) are your AI-powered platforms and mobile app for booking services, offering your own services to earn money, discovering products, and managing your business online.
             </p>
           </div>
