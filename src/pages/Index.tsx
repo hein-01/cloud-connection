@@ -199,7 +199,7 @@ const Index = () => {
                 {/* GoLar Introduction */}
                 <div className="text-center max-w-2xl px-6 mb-6">
                   <p className="text-sm leading-relaxed bg-gradient-to-r from-slate-600 via-purple-600 to-pink-600 dark:from-gray-300 dark:via-purple-300 dark:to-pink-300 bg-clip-text text-transparent animate-fade-in">
-                    Hi, I&apos;m GoLar — nice to meet you! I&apos;m here to gather and share info about meaningful but hard-to-find individuals and organizations — like community fundraisers and free service providers — so I can better support you when you need it most. 💜 If you know any such people or groups, I&apos;d love your suggestion!
+                    Hi, I&apos;m Min — nice to meet you! I&apos;m here to gather and share info about meaningful but hard-to-find individuals and organizations — like community fundraisers and free service providers — so I can better support you when you need it most. 💜 If you know any such people or groups, I&apos;d love your suggestion!
                   </p>
                 </div>
                 
@@ -234,7 +234,7 @@ const Index = () => {
                 {/* GoLar Introduction */}
                 <div className="text-center max-w-2xl px-6 mb-6">
                   <p className="text-base leading-relaxed bg-gradient-to-r from-slate-600 via-purple-600 to-pink-600 dark:from-gray-300 dark:via-purple-300 dark:to-pink-300 bg-clip-text text-transparent animate-fade-in">
-                    Hi, I&apos;m GoLar — nice to meet you! I&apos;m here to gather and share info about meaningful but hard-to-find individuals and organizations — like community fundraisers and free service providers — so I can better support you when you need it most. 💜 If you know any such people or groups, I&apos;d love your suggestion!
+                    Hi, I&apos;m Min — nice to meet you! I&apos;m here to gather and share info about meaningful but hard-to-find individuals and organizations — like community fundraisers and free service providers — so I can better support you when you need it most. 💜 If you know any such people or groups, I&apos;d love your suggestion!
                   </p>
                 </div>
                 
