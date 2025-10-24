@@ -7,7 +7,7 @@ const Footer = () => {
           <div className="mb-6">
             <div className="mb-3">
               <h2 className="text-2xl font-bold text-primary">
-                Welcome To GoLocalSG.com!
+                Welcome To MyanShops!
               </h2>
             </div>
             
