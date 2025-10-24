@@ -24,7 +24,7 @@ export const Navbar = React.memo(() => {
   
   const buttonTexts = React.useMemo(() => [
     "Get Website + POS",
-    "Free Business Listing"
+    "Business Listing"
   ], []);
 
   const priceTexts = React.useMemo(() => [
