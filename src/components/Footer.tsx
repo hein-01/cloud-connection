@@ -37,6 +37,18 @@ const Footer = () => {
                 <span className="text-muted-foreground">GoLocalSG</span>
                 <span className="text-green-600">.com</span>
               </a>
+              
+              <span className="text-sm text-muted-foreground">|</span>
+              
+              <a 
+                href="https://www.booknget.asia" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-sm font-medium hover:underline"
+              >
+                <span className="text-muted-foreground">BooknGet</span>
+                <span className="text-green-600">.asia</span>
+              </a>
             </div>
             
             <p className="text-xs text-muted-foreground max-w-2xl mx-auto">
