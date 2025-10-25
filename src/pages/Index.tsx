@@ -66,7 +66,7 @@ const Index = () => {
       setCurrentBgIndex(prev => (prev + 1) % heroBackgrounds.length);
     }, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [heroBackgrounds.length]);
   const handleCategorySelect = (category: string) => {
     // If clicking the same category, deselect and restart carousel
     if (selectedCategory === category && isCarouselStopped) {
