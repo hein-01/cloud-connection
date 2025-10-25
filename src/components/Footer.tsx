@@ -16,7 +16,7 @@ const Footer = () => {
             </p>
             
             {/* Service Logos */}
-            <div className="flex items-center justify-center space-x-6 mb-4">
+            <div className="flex items-center justify-center space-x-3 mb-4">
               <a 
                 href="https://drive.google.com/uc?export=download&id=1K9z2nmPiv05M_MCCCYNryHycb8lZymOK" 
                 target="_blank" 
