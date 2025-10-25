@@ -20,13 +20,16 @@ import 'swiper/css/autoplay';
 import 'swiper/css/navigation';
 import { useTypingEffect } from "@/hooks/useTypingEffect";
 import { useIsMobile } from "@/hooks/use-mobile";
+import mobileBanner1 from "../assets/mobile-banner-1.png";
+import mobileBanner2 from "../assets/mobile-banner-2.png";
+import mobileBanner3 from "../assets/mobile-banner-3.png";
+import mobileBanner4 from "../assets/mobile-banner-4.png";
+import mobileBanner5 from "../assets/mobile-banner-5.png";
+
 // Import hero background images with error handling
 const heroBg1 = "https://github.com/hein-01/mysvgs/raw/552eaf7b2405ff01d6ea749d1f165971814ead9b/banner_image_desktop_01_1920_350.png";
 const heroBg2 = "https://github.com/hein-01/mysvgs/raw/552eaf7b2405ff01d6ea749d1f165971814ead9b/banner_image_desktop_02_1920_350.png";
 const heroBg3 = "https://github.com/hein-01/mysvgs/raw/552eaf7b2405ff01d6ea749d1f165971814ead9b/banner_image_desktop_03_1920_350.png";
-const heroBgMobile1 = "https://raw.githubusercontent.com/hein-01/mysvgs/552eaf7b2405ff01d6ea749d1f165971814ead9b/banner_image_mobile_01_420w_300h.png";
-const heroBgMobile2 = "https://github.com/hein-01/mysvgs/raw/552eaf7b2405ff01d6ea749d1f165971814ead9b/banner_image_mobile_02_420w_300h.png";
-const heroBgMobile3 = "https://raw.githubusercontent.com/hein-01/mysvgs/552eaf7b2405ff01d6ea749d1f165971814ead9b/banner_image_mobile_03_420w_300h.png";
 
 // Mobile slider image URLs
 const mobileSlider1 = "https://github.com/hein-01/mysvgs/raw/1df6944ef5b84ea6383de1af9e25c88273798a99/Mizu-01-280w-400h.png";
@@ -47,7 +50,7 @@ const Index = () => {
     10
   );
   const heroBackgrounds = [heroBg1, heroBg2, heroBg3];
-  const heroBackgroundsMobile = [heroBgMobile1, heroBgMobile2, heroBgMobile3];
+  const heroBackgroundsMobile = [mobileBanner1, mobileBanner2, mobileBanner3, mobileBanner4, mobileBanner5];
   const categories = [{
     value: "product",
     label: "Find Product"
