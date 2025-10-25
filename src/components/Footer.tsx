@@ -17,7 +17,14 @@ const Footer = () => {
             
             {/* Service Logos */}
             <div className="flex items-center justify-center space-x-6 mb-4">
-              <span className="text-sm font-medium text-primary">YaYou App</span>
+              <a 
+                href="https://drive.google.com/uc?export=download&id=1K9z2nmPiv05M_MCCCYNryHycb8lZymOK" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-sm font-medium text-primary hover:underline"
+              >
+                YaYou App
+              </a>
               
               <span className="text-sm text-muted-foreground">|</span>
               
