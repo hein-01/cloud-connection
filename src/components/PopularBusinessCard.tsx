@@ -321,8 +321,12 @@ export const PopularBusinessCard = ({ business }: PopularBusinessCardProps) => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="left-2 h-8 w-8 bg-white/90 hover:bg-white border-0" />
-            <CarouselNext className="right-2 h-8 w-8 bg-white/90 hover:bg-white border-0" />
+            {hasMultipleImages && (
+              <>
+                <CarouselPrevious className="left-2 h-8 w-8 bg-white/90 hover:bg-white border-0" />
+                <CarouselNext className="right-2 h-8 w-8 bg-white/90 hover:bg-white border-0" />
+              </>
+            )}
           </Carousel>
         
         {/* Starting Price Tag - Top Left Corner */}
