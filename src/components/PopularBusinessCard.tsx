@@ -297,47 +297,32 @@ export const PopularBusinessCard = ({ business }: PopularBusinessCardProps) => {
   };
 
   const hasMultipleImages = business.product_images && business.product_images.length > 1;
+  const displayImages = business.product_images && business.product_images.length > 0 
+    ? business.product_images 
+    : business.image_url 
+    ? [business.image_url] 
+    : ["https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=290&h=290&fit=crop"];
 
   return (
     <>
       <Card className="group w-[290px] h-[615px] flex flex-col shadow-xl hover:shadow-2xl transition-all duration-300 mx-auto bg-gradient-to-b from-background to-muted/20 relative">
       <div className="relative overflow-hidden rounded-t-lg h-[290px]">
-          <Carousel className="w-full h-full" opts={{ loop: hasMultipleImages }}>
-            <CarouselContent className="h-[290px] m-0">
-              {business.product_images && business.product_images.length > 0 ? (
-                business.product_images.map((image, index) => (
-                  <CarouselItem key={index} className="p-0">
+          <Carousel className="w-full h-full" opts={{ loop: true }}>
+            <CarouselContent className="h-[290px] -ml-0">
+              {displayImages.map((image, index) => (
+                <CarouselItem key={index} className="pl-0 basis-full">
+                  <div className="h-[290px] w-full">
                     <img
                       src={image}
                       alt={`${business.name} product ${index + 1}`}
                       className="w-full h-full object-cover"
                     />
-                  </CarouselItem>
-                ))
-              ) : business.image_url ? (
-                <CarouselItem className="p-0">
-                  <img
-                    src={business.image_url}
-                    alt={`${business.name} main image`}
-                    className="w-full h-full object-cover"
-                  />
+                  </div>
                 </CarouselItem>
-              ) : (
-                <CarouselItem className="p-0">
-                  <img
-                    src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=290&h=290&fit=crop"
-                    alt={`${business.name} products`}
-                    className="w-full h-full object-cover"
-                  />
-                </CarouselItem>
-              )}
+              ))}
             </CarouselContent>
-            {hasMultipleImages && (
-              <>
-                <CarouselPrevious className="left-2 h-8 w-8 bg-background/90 hover:bg-background" />
-                <CarouselNext className="right-2 h-8 w-8 bg-background/90 hover:bg-background" />
-              </>
-            )}
+            <CarouselPrevious className="left-2 h-8 w-8 bg-white/90 hover:bg-white border-0" />
+            <CarouselNext className="right-2 h-8 w-8 bg-white/90 hover:bg-white border-0" />
           </Carousel>
         
         {/* Starting Price Tag - Top Left Corner */}
