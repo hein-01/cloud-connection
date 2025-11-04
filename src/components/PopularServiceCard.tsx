@@ -10,8 +10,6 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import facebookIcon from "@/assets/facebook-icon.jpg";
 import tiktokIcon from "@/assets/tiktok-icon.jpg";
 import phoneIcon from "@/assets/phone-icon-new.png";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { formatDateWithOrdinal } from '@/lib/dateUtils';
@@ -19,9 +17,13 @@ import { format as formatDate } from 'date-fns';
 import { fetchServicePaymentMethods } from '@/lib/paymentUtils';
 import AuthModal from './AuthModal';
 import { InlineAuthForm } from './InlineAuthForm';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 interface Service {
   id: string;
@@ -492,82 +494,44 @@ export const PopularServiceCard = ({ service }: PopularServiceCardProps) => {
   return (
     <>
       <Card className="group w-[290px] h-[615px] flex flex-col shadow-xl hover:shadow-2xl transition-all duration-300 mx-auto bg-gradient-to-b from-background to-muted/20 relative">
-      <div className="relative overflow-hidden rounded-t-lg w-full" style={{ aspectRatio: '4/3' }}>
-          <Swiper
-            modules={[Navigation, Pagination]}
-            navigation={{
-              nextEl: `.swiper-button-next-${service.id}`,
-              prevEl: `.swiper-button-prev-${service.id}`,
-              enabled: true
-            }}
-            pagination={{ 
-              clickable: true,
-              enabled: false 
-            }}
-            spaceBetween={0}
-            slidesPerView={1}
-            loop={hasMultipleImages}
-            className="service-carousel"
-            style={{ width: '100%', height: '100%' }}
-          >
-          {service.service_images && service.service_images.length > 0 ? (
-            service.service_images.map((image, index) => (
-              <SwiperSlide key={index}>
-                <img
-                  src={image}
-                  alt={`${service.name} service ${index + 1}`}
-                  style={{ 
-                    width: '100%', 
-                    height: '100%', 
-                    objectFit: 'cover'
-                  }}
-                />
-              </SwiperSlide>
-            ))
-          ) : service.image_url ? (
-            <SwiperSlide>
-              <img
-                src={service.image_url}
-                alt={`${service.name} main image`}
-                style={{ 
-                  width: '100%', 
-                  height: '100%', 
-                  objectFit: 'cover'
-                }}
-              />
-            </SwiperSlide>
-          ) : (
-            <SwiperSlide>
-              <img
-                src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=290&h=290&fit=crop"
-                alt={`${service.name} services`}
-                style={{ 
-                  width: '100%', 
-                  height: '100%', 
-                  objectFit: 'cover'
-                }}
-              />
-            </SwiperSlide>
-          )}
-          
-          {/* Custom Navigation Arrows - only show if multiple images */}
-          {service.service_images && service.service_images.length > 1 && (
-            <>
-              <button 
-                className={`swiper-button-prev-${service.id} absolute left-2 top-1/2 -translate-y-1/2 z-30 w-6 h-6 bg-white/95 rounded-full flex items-center justify-center cursor-pointer hover:bg-white transition-all duration-200 shadow-lg border border-gray-200`}
-                type="button"
-              >
-                <ChevronLeft className="w-3 h-3 text-gray-800" />
-              </button>
-              <button 
-                className={`swiper-button-next-${service.id} absolute right-2 top-1/2 -translate-y-1/2 z-30 w-6 h-6 bg-white/95 rounded-full flex items-center justify-center cursor-pointer hover:bg-white transition-all duration-200 shadow-lg border border-gray-200`}
-                type="button"
-              >
-                <ChevronRight className="w-3 h-3 text-gray-800" />
-              </button>
-            </>
-          )}
-        </Swiper>
+      <div className="relative overflow-hidden rounded-t-lg h-[290px]">
+          <Carousel className="w-full h-full" opts={{ loop: hasMultipleImages }}>
+            <CarouselContent className="h-[290px] m-0">
+              {service.service_images && service.service_images.length > 0 ? (
+                service.service_images.map((image, index) => (
+                  <CarouselItem key={index} className="p-0">
+                    <img
+                      src={image}
+                      alt={`${service.name} service ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </CarouselItem>
+                ))
+              ) : service.image_url ? (
+                <CarouselItem className="p-0">
+                  <img
+                    src={service.image_url}
+                    alt={`${service.name} main image`}
+                    className="w-full h-full object-cover"
+                  />
+                </CarouselItem>
+              ) : (
+                <CarouselItem className="p-0">
+                  <img
+                    src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=290&h=290&fit=crop"
+                    alt={`${service.name} services`}
+                    className="w-full h-full object-cover"
+                  />
+                </CarouselItem>
+              )}
+            </CarouselContent>
+            {hasMultipleImages && (
+              <>
+                <CarouselPrevious className="left-2 h-8 w-8 bg-background/90 hover:bg-background" />
+                <CarouselNext className="right-2 h-8 w-8 bg-background/90 hover:bg-background" />
+              </>
+            )}
+          </Carousel>
         
         {/* Starting Price Tag - Top Left Corner */}
         {service.base_price && (

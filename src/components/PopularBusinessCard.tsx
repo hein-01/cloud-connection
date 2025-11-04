@@ -9,16 +9,18 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import facebookIcon from "@/assets/facebook-icon.jpg";
 import tiktokIcon from "@/assets/tiktok-icon.jpg";
 import phoneIcon from "@/assets/phone-icon-new.png";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { formatDateWithOrdinal } from '@/lib/dateUtils';
 import AuthModal from './AuthModal';
 import { InlineAuthForm } from './InlineAuthForm';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 interface Business {
   id: string;
@@ -300,84 +302,43 @@ export const PopularBusinessCard = ({ business }: PopularBusinessCardProps) => {
     <>
       <Card className="group w-[290px] h-[615px] flex flex-col shadow-xl hover:shadow-2xl transition-all duration-300 mx-auto bg-gradient-to-b from-background to-muted/20 relative">
       <div className="relative overflow-hidden rounded-t-lg h-[290px]">
-          <Swiper
-            modules={[Navigation, Pagination]}
-            navigation={{
-              nextEl: `.swiper-button-next-${business.id}`,
-              prevEl: `.swiper-button-prev-${business.id}`,
-              enabled: true
-            }}
-            pagination={{ 
-              clickable: true,
-              enabled: false 
-            }}
-            spaceBetween={0}
-            slidesPerView={1}
-            loop={hasMultipleImages}
-            className="product-carousel"
-            style={{ width: '290px', height: '290px' }}
-          >
-          {business.product_images && business.product_images.length > 0 ? (
-            business.product_images.map((image, index) => (
-              <SwiperSlide key={index}>
-                <img
-                  src={image}
-                  alt={`${business.name} product ${index + 1}`}
-                  style={{ 
-                    width: '290px', 
-                    height: '290px', 
-                    objectFit: 'none', 
-                    objectPosition: 'top left' 
-                  }}
-                />
-              </SwiperSlide>
-            ))
-          ) : business.image_url ? (
-            <SwiperSlide>
-              <img
-                src={business.image_url}
-                alt={`${business.name} main image`}
-                style={{ 
-                  width: '290px', 
-                  height: '290px', 
-                  objectFit: 'none', 
-                  objectPosition: 'top left' 
-                }}
-              />
-            </SwiperSlide>
-          ) : (
-            <SwiperSlide>
-              <img
-                src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=290&h=290&fit=crop"
-                alt={`${business.name} products`}
-                style={{ 
-                  width: '290px', 
-                  height: '290px', 
-                  objectFit: 'none', 
-                  objectPosition: 'top left' 
-                }}
-              />
-            </SwiperSlide>
-          )}
-          
-          {/* Custom Navigation Arrows - only show if multiple images */}
-          {business.product_images && business.product_images.length > 1 && (
-            <>
-              <button 
-                className={`swiper-button-prev-${business.id} absolute left-2 top-1/2 -translate-y-1/2 z-30 w-6 h-6 bg-white/95 rounded-full flex items-center justify-center cursor-pointer hover:bg-white transition-all duration-200 shadow-lg border border-gray-200`}
-                type="button"
-              >
-                <ChevronLeft className="w-3 h-3 text-gray-800" />
-              </button>
-              <button 
-                className={`swiper-button-next-${business.id} absolute right-2 top-1/2 -translate-y-1/2 z-30 w-6 h-6 bg-white/95 rounded-full flex items-center justify-center cursor-pointer hover:bg-white transition-all duration-200 shadow-lg border border-gray-200`}
-                type="button"
-              >
-                <ChevronRight className="w-3 h-3 text-gray-800" />
-              </button>
-            </>
-          )}
-        </Swiper>
+          <Carousel className="w-full h-full" opts={{ loop: hasMultipleImages }}>
+            <CarouselContent className="h-[290px] m-0">
+              {business.product_images && business.product_images.length > 0 ? (
+                business.product_images.map((image, index) => (
+                  <CarouselItem key={index} className="p-0">
+                    <img
+                      src={image}
+                      alt={`${business.name} product ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </CarouselItem>
+                ))
+              ) : business.image_url ? (
+                <CarouselItem className="p-0">
+                  <img
+                    src={business.image_url}
+                    alt={`${business.name} main image`}
+                    className="w-full h-full object-cover"
+                  />
+                </CarouselItem>
+              ) : (
+                <CarouselItem className="p-0">
+                  <img
+                    src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=290&h=290&fit=crop"
+                    alt={`${business.name} products`}
+                    className="w-full h-full object-cover"
+                  />
+                </CarouselItem>
+              )}
+            </CarouselContent>
+            {hasMultipleImages && (
+              <>
+                <CarouselPrevious className="left-2 h-8 w-8 bg-background/90 hover:bg-background" />
+                <CarouselNext className="right-2 h-8 w-8 bg-background/90 hover:bg-background" />
+              </>
+            )}
+          </Carousel>
         
         {/* Starting Price Tag - Top Left Corner */}
         {business.starting_price && (
