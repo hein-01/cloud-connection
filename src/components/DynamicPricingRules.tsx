@@ -66,7 +66,7 @@ export function DynamicPricingRules({ resourceId, onSaved }: { resourceId: strin
         setError("Please complete at least one rule before saving.");
         return;
       }
-      const { error } = await supabase.from("resource_pricing_rules").insert(payload);
+      const { error } = await (supabase as any).from("resource_pricing_rules").insert(payload);
       if (error) throw error;
   setInfo("Pricing rules saved successfully.");
   if (onSaved) onSaved();

@@ -125,7 +125,7 @@ export default function ServiceAvailability(props: ServiceAvailabilityProps) {
   // Step 2: load slots when resource/date changes — use shared helper
   useEffect(() => {
     async function loadSlots() {
-      if (!selectedResourceId || !selectedDate) return;
+      if (!selectedResourceId || !selectedDate || loadingResources) return;
       setLoadingSlots(true);
       setError(null);
       setSelectedSlotIds(new Set()); // reset selections when date/resource changes
@@ -145,7 +145,7 @@ export default function ServiceAvailability(props: ServiceAvailabilityProps) {
       }
     }
     loadSlots();
-  }, [selectedResourceId, selectedDate, resources]);
+  }, [selectedResourceId, selectedDate, resources, loadingResources]);
 
   // Step 3: load weekly schedule to disable closed days on the calendar
   useEffect(() => {
