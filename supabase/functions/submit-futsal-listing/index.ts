@@ -247,28 +247,7 @@ Deno.serve(async (req) => {
 
     console.log('Resource created:', resource.id);
 
-    // 4. Create slots for each field
-    const slotsToInsert = fieldDetails.map((field: any) => ({
-      resource_id: resource.id,
-      slot_name: field.name,
-      slot_price: parseFloat(field.price),
-      start_time: new Date().toISOString(), // Placeholder
-      end_time: new Date().toISOString(), // Placeholder
-      is_booked: false,
-    }));
-
-    const { error: slotsError } = await supabase
-      .from('slots')
-      .insert(slotsToInsert);
-
-    if (slotsError) {
-      console.error('Slots creation error:', slotsError);
-      throw slotsError;
-    }
-
-    console.log('Slots created:', slotsToInsert.length);
-
-    // 5. Create business_schedules for each day (only insert open days)
+    // 4. Create business_schedules for each day (only insert open days)
     const schedulesToInsert = operatingHours
       .map((hour: any, index: number) => {
         // Skip closed days - don't insert records for them
@@ -352,6 +331,31 @@ Deno.serve(async (req) => {
       }
 
       console.log('Payment methods created:', paymentMethodsToInsert.length);
+    }
+
+    // 7. Generate time slots automatically for the next 30 days
+    if (schedulesToInsert.length > 0) {
+      console.log('Generating time slots for the next 30 days...');
+      
+      const startDate = new Date();
+      const endDate = new Date();
+      endDate.setDate(endDate.getDate() + 30);
+      
+      const { data: slotsResult, error: slotsGenError } = await supabase.functions.invoke('generate-slots', {
+        body: {
+          resourceId: resource.id,
+          startDate: startDate.toISOString().split('T')[0],
+          endDate: endDate.toISOString().split('T')[0],
+          slotDurationMinutes: 60,
+        }
+      });
+
+      if (slotsGenError) {
+        console.error('Slot generation warning:', slotsGenError);
+        // Don't throw - this is not critical for listing creation
+      } else {
+        console.log('Time slots generated successfully:', slotsResult);
+      }
     }
 
     return new Response(
