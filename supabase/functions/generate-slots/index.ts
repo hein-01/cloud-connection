@@ -80,12 +80,19 @@ Deno.serve(async (req) => {
         return resource.base_price || 0;
       }
 
-      const slotTime = slotStart.toTimeString().substring(0, 8); // HH:MM:SS
+      // Extract UTC time in HH:MM:SS format
+      const hours = slotStart.getUTCHours().toString().padStart(2, '0');
+      const minutes = slotStart.getUTCMinutes().toString().padStart(2, '0');
+      const seconds = slotStart.getUTCSeconds().toString().padStart(2, '0');
+      const slotTime = `${hours}:${minutes}:${seconds}`;
 
       for (const rule of pricingRules) {
+        console.log(`Checking rule "${rule.rule_name}": slotTime=${slotTime}, dayOfWeek=${dayOfWeek}, ruleDays=${JSON.stringify(rule.day_of_week)}, start=${rule.start_time}, end=${rule.end_time}`);
+        
         // Check if rule applies to this day (day_of_week stored as strings in array)
         const ruleDays = rule.day_of_week || [];
         if (ruleDays.length > 0 && !ruleDays.includes(dayOfWeek.toString())) {
+          console.log(`  -> Day ${dayOfWeek} not in ruleDays`);
           continue;
         }
 
@@ -93,6 +100,8 @@ Deno.serve(async (req) => {
         if (slotTime >= rule.start_time && slotTime < rule.end_time) {
           console.log(`Applying rule "${rule.rule_name}" for ${slotTime}: ${rule.price_override}`);
           return rule.price_override;
+        } else {
+          console.log(`  -> Time ${slotTime} not in range [${rule.start_time}, ${rule.end_time})`);
         }
       }
 
