@@ -61,7 +61,45 @@ Deno.serve(async (req) => {
 
     console.log(`Found ${schedules?.length || 0} schedule rules`);
 
-    // 3. Create a map of day_of_week -> schedule
+    // 3. Fetch pricing rules for this resource
+    const { data: pricingRules, error: pricingError } = await supabase
+      .from('resource_pricing_rules')
+      .select('rule_name, day_of_week, start_time, end_time, price_override')
+      .eq('resource_id', resourceId);
+
+    if (pricingError) {
+      console.error('Pricing rules fetch error:', pricingError);
+      // Don't fail - just use base price
+    }
+
+    console.log(`Found ${pricingRules?.length || 0} pricing rules`);
+
+    // Helper function to check if a time falls within a pricing rule
+    const getPriceForSlot = (slotStart: Date, dayOfWeek: number): number => {
+      if (!pricingRules || pricingRules.length === 0) {
+        return resource.base_price || 0;
+      }
+
+      const slotTime = slotStart.toTimeString().substring(0, 8); // HH:MM:SS
+
+      for (const rule of pricingRules) {
+        // Check if rule applies to this day (day_of_week stored as strings in array)
+        const ruleDays = rule.day_of_week || [];
+        if (ruleDays.length > 0 && !ruleDays.includes(dayOfWeek.toString())) {
+          continue;
+        }
+
+        // Check if slot time falls within rule's time range
+        if (slotTime >= rule.start_time && slotTime < rule.end_time) {
+          console.log(`Applying rule "${rule.rule_name}" for ${slotTime}: ${rule.price_override}`);
+          return rule.price_override;
+        }
+      }
+
+      return resource.base_price || 0;
+    };
+
+    // 4. Create a map of day_of_week -> schedule
     const scheduleMap = new Map();
     schedules?.forEach((s) => {
       scheduleMap.set(s.day_of_week, s);
@@ -110,7 +148,7 @@ Deno.serve(async (req) => {
           resource_id: resourceId,
           start_time: currentTime.toISOString(),
           end_time: slotEnd.toISOString(),
-          slot_price: resource.base_price || 0,
+          slot_price: getPriceForSlot(currentTime, dayOfWeek),
           is_booked: false,
           slot_name: resource.name,
         });
