@@ -456,7 +456,11 @@ export default function ServiceAvailability(props: ServiceAvailabilityProps) {
                 showOutsideDays
                 weekStartsOn={1}
                 className="pointer-events-auto"
-                disabled={disabledDays ? [{ dayOfWeek: disabledDays }] : undefined}
+                disabled={[
+                  { before: new Date() },
+                  { after: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) },
+                  ...(disabledDays ? [{ dayOfWeek: disabledDays }] : []),
+                ]}
                 styles={{
                   caption: { textTransform: "capitalize" },
                   day: { borderRadius: 8 },
