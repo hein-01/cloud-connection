@@ -211,14 +211,17 @@ export default function ServiceAvailability(props: ServiceAvailabilityProps) {
       if (!businessId || loadingResources) return;
       
       try {
-        // Check if we have slots for today
+        // Check if we have slots for the last day of the 30-day range
         const today = new Date();
-        const todayStr = toISODateOnly(today);
-        const { data: todaySlots, error: checkError } = await supabase
+        const endDate = new Date();
+        endDate.setDate(endDate.getDate() + 30);
+        const endDateStr = toISODateOnly(endDate);
+        
+        const { data: endDateSlots, error: checkError } = await supabase
           .from("slots")
           .select("id")
-          .gte("start_time", `${todayStr}T00:00:00.000Z`)
-          .lt("start_time", `${todayStr}T23:59:59.999Z`)
+          .gte("start_time", `${endDateStr}T00:00:00.000Z`)
+          .lt("start_time", `${endDateStr}T23:59:59.999Z`)
           .limit(1);
 
         if (checkError) {
@@ -226,18 +229,17 @@ export default function ServiceAvailability(props: ServiceAvailabilityProps) {
           return;
         }
 
-        // If no slots exist for today, regenerate for all resources
-        if (!todaySlots || todaySlots.length === 0) {
-          console.log("No slots found for today, regenerating...");
-          const endDate = new Date();
-          endDate.setDate(endDate.getDate() + 30);
+        // If no slots exist for the end date, regenerate for all resources
+        if (!endDateSlots || endDateSlots.length === 0) {
+          console.log(`No slots found for ${endDateStr}, regenerating for 30-day range...`);
+          const todayStr = toISODateOnly(today);
 
           for (const resource of resources) {
             await supabase.functions.invoke("generate-slots", {
               body: {
                 resourceId: resource.id,
                 startDate: todayStr,
-                endDate: toISODateOnly(endDate),
+                endDate: endDateStr,
                 slotDurationMinutes: 60,
               },
             });
