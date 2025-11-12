@@ -120,13 +120,12 @@ export default function ServiceAvailability(props: ServiceAvailabilityProps) {
     const grouped = new Map<string, SlotMatrixRow>();
     const now = new Date();
     const isToday = toISODateOnly(selectedDate) === toISODateOnly(now);
-    const oneHourFromNow = new Date(now.getTime() + 60 * 60 * 1000);
 
     for (const slot of slots) {
-      // Skip slots that are in the past (for today only)
+      // Skip slots that have already started (for today only)
       if (isToday) {
         const slotStart = new Date(slot.start_time);
-        if (slotStart < oneHourFromNow) {
+        if (slotStart < now) {
           continue;
         }
       }
