@@ -118,8 +118,19 @@ export default function ServiceAvailability(props: ServiceAvailabilityProps) {
 
   const slotMatrix = useMemo<SlotMatrixRow[]>(() => {
     const grouped = new Map<string, SlotMatrixRow>();
+    const now = new Date();
+    const isToday = toISODateOnly(selectedDate) === toISODateOnly(now);
+    const oneHourFromNow = new Date(now.getTime() + 60 * 60 * 1000);
 
     for (const slot of slots) {
+      // Skip slots that are in the past (for today only)
+      if (isToday) {
+        const slotStart = new Date(slot.start_time);
+        if (slotStart < oneHourFromNow) {
+          continue;
+        }
+      }
+
       const key = `${slot.start_time}|${slot.end_time}`;
       if (!grouped.has(key)) {
         grouped.set(key, {
@@ -140,7 +151,7 @@ export default function ServiceAvailability(props: ServiceAvailabilityProps) {
     return Array.from(grouped.values()).sort((a, b) =>
       new Date(a.start_time).getTime() - new Date(b.start_time).getTime()
     );
-  }, [slots]);
+  }, [slots, selectedDate]);
 
   // Step 1: fetch initial resource to learn business_id, then all sibling resources
   useEffect(() => {
