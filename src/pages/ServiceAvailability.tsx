@@ -208,18 +208,22 @@ export default function ServiceAvailability(props: ServiceAvailabilityProps) {
   // Step 2.5: Ensure slots exist for today + 30 days (regenerate if needed)
   useEffect(() => {
     async function ensureSlotsExist() {
-      if (!businessId || loadingResources) return;
+      if (!businessId || loadingResources || resources.length === 0) return;
       
       try {
-        // Check if we have slots for the last day of the 30-day range
+        // Check if we have slots for the last day of the 30-day range for THIS business
         const today = new Date();
         const endDate = new Date();
         endDate.setDate(endDate.getDate() + 30);
         const endDateStr = toISODateOnly(endDate);
         
+        // Get all resource IDs for this business
+        const resourceIds = resources.map(r => r.id);
+        
         const { data: endDateSlots, error: checkError } = await supabase
           .from("slots")
-          .select("id")
+          .select("id, resource_id!inner(business_id)")
+          .in("resource_id", resourceIds)
           .gte("start_time", `${endDateStr}T00:00:00.000Z`)
           .lt("start_time", `${endDateStr}T23:59:59.999Z`)
           .limit(1);
@@ -229,9 +233,9 @@ export default function ServiceAvailability(props: ServiceAvailabilityProps) {
           return;
         }
 
-        // If no slots exist for the end date, regenerate for all resources
+        // If no slots exist for the end date for this business, regenerate for all resources
         if (!endDateSlots || endDateSlots.length === 0) {
-          console.log(`No slots found for ${endDateStr}, regenerating for 30-day range...`);
+          console.log(`No slots found for ${endDateStr} for business ${businessId}, regenerating for 30-day range...`);
           const todayStr = toISODateOnly(today);
 
           for (const resource of resources) {
