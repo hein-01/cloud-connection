@@ -216,7 +216,6 @@ export default function UserDashboard() {
           )
         `)
         .eq('user_id', user.id)
-        .eq('status', 'Pending')
         .order('created_at', { ascending: false });
       
       if (customerError) {
@@ -258,7 +257,6 @@ export default function UserDashboard() {
           )
         `)
         .eq('business_resources.businesses.owner_id', user.id)
-        .eq('status', 'Pending')
         .order('created_at', { ascending: false });
 
       if (ownerError) {
