@@ -98,6 +98,8 @@ export default function ServiceAvailability(props: ServiceAvailabilityProps) {
   const [loadingPaymentMethods, setLoadingPaymentMethods] = useState(false);
   const [paymentMethodsError, setPaymentMethodsError] = useState<string | null>(null);
   const [showReceiptModal, setShowReceiptModal] = useState(false);
+  const [serviceRules, setServiceRules] = useState<string | null>(null);
+  const [loadingRules, setLoadingRules] = useState(false);
   const [isSubmittingBooking, setIsSubmittingBooking] = useState(false);
 
   const navigate = useNavigate();
@@ -286,6 +288,45 @@ export default function ServiceAvailability(props: ServiceAvailabilityProps) {
       }
     }
     loadWeekly();
+  }, [selectedResourceId]);
+
+  // Step 3.5: Fetch service rules when resource is selected
+  useEffect(() => {
+    async function loadServiceRules() {
+      if (!selectedResourceId) {
+        setServiceRules(null);
+        return;
+      }
+      
+      setLoadingRules(true);
+      try {
+        // Get the resource to find its service_id
+        const { data: resourceData, error: resourceError } = await supabase
+          .from("business_resources")
+          .select("service_id")
+          .eq("id", selectedResourceId)
+          .single();
+
+        if (resourceError) throw resourceError;
+
+        // Get the service rules
+        const { data: serviceData, error: serviceError } = await supabase
+          .from("services")
+          .select("rules")
+          .eq("id", resourceData.service_id)
+          .single();
+
+        if (serviceError) throw serviceError;
+
+        setServiceRules(serviceData?.rules || null);
+      } catch (e) {
+        console.error("Failed to load service rules", e);
+        setServiceRules(null);
+      } finally {
+        setLoadingRules(false);
+      }
+    }
+    loadServiceRules();
   }, [selectedResourceId]);
 
   function toggleSelect(slot: SlotWithResource) {
@@ -567,30 +608,23 @@ export default function ServiceAvailability(props: ServiceAvailabilityProps) {
       </div>
       
       <div className="max-w-6xl w-full mx-auto p-4 md:p-8 md:pt-24 space-y-6">
-        {/* Venue Selection Card */}
-        <Card className="shadow-lg border-primary/10">
-          <CardHeader>
-            <CardTitle className="text-foreground">Select Venue</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Select
-              value={selectedResourceId || ""}
-              onValueChange={(value) => setSelectedResourceId(value)}
-              disabled={loadingResources}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Choose a venue" />
-              </SelectTrigger>
-              <SelectContent>
-                {resources.map((r) => (
-                  <SelectItem key={r.id} value={r.id}>
-                    {r.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </CardContent>
-        </Card>
+        {/* Service Rules Card */}
+        {serviceRules && (
+          <Card className="shadow-lg border-primary/10">
+            <CardHeader>
+              <CardTitle className="text-foreground">Rules & Guidelines</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {loadingRules ? (
+                <p className="text-muted-foreground">Loading rules...</p>
+              ) : (
+                <div className="prose prose-sm max-w-none text-foreground">
+                  <p className="whitespace-pre-wrap">{serviceRules}</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
 
         {/* Calendar Card - Centered */}
         <Card className="shadow-xl border-primary/20">
