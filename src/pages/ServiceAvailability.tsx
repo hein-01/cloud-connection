@@ -619,7 +619,24 @@ export default function ServiceAvailability(props: ServiceAvailabilityProps) {
                 <p className="text-muted-foreground">Loading rules...</p>
               ) : (
                 <div className="prose prose-sm max-w-none text-foreground">
-                  <p className="whitespace-pre-wrap">{serviceRules}</p>
+                  {(() => {
+                    try {
+                      // Try to parse as JSON array
+                      const rulesArray = JSON.parse(serviceRules);
+                      if (Array.isArray(rulesArray)) {
+                        return (
+                          <ul className="list-disc pl-5 space-y-2">
+                            {rulesArray.map((rule: string, index: number) => (
+                              <li key={index}>{rule}</li>
+                            ))}
+                          </ul>
+                        );
+                      }
+                    } catch (e) {
+                      // If not JSON, display as plain text
+                    }
+                    return <p className="whitespace-pre-wrap">{serviceRules}</p>;
+                  })()}
                 </div>
               )}
             </CardContent>
