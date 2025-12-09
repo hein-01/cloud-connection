@@ -54,10 +54,10 @@ export const Navbar = React.memo(() => {
               Book Services
             </Link>
             <Link
-              to="/find-shops"
+              to="/shop"
               className="text-nav-text hover:text-nav-text/80 text-sm transition-colors"
             >
-              Find Shops
+              Shop
             </Link>
             <Link
               to="/find-jobs"
