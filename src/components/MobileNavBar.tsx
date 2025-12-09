@@ -23,9 +23,9 @@ const MobileNavBar = React.memo(() => {
     },
     {
       id: "stores",
-      label: "Shops", 
+      label: "Shop", 
       icon: ShoppingBag,
-      path: "/find-shops",
+      path: "/shop",
       colors: "text-yellow-500"
     },
     {
