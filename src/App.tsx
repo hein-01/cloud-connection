@@ -8,7 +8,8 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import BusinessDetail from "./pages/BusinessDetail";
 import BusinessDirectory from "./pages/BusinessDirectory";
-import FindShops from "./pages/FindShops";
+// import FindShops from "./pages/FindShops"; // Temporarily disabled
+import Shop from "./pages/Shop";
 import FindServices from "./pages/FindServices";
 import ListBusiness from "./pages/ListBusiness";
 import ServiceSelection from "./pages/ServiceSelection";
@@ -45,7 +46,8 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/businesses" element={<BusinessDirectory />} />
             <Route path="/find-services" element={<FindServices />} />
-            <Route path="/find-shops" element={<FindShops />} />
+            {/* <Route path="/find-shops" element={<FindShops />} /> */}{/* Temporarily disabled */}
+            <Route path="/shop" element={<Shop />} />
             <Route path="/find-jobs" element={<FindJobs />} />
             <Route path="/post-a-job" element={
               <ProtectedRoute>
