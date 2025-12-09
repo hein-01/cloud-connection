@@ -1,6 +1,6 @@
-# YaYou Web App
+# GoYa Web App
 
-This is the YaYou web application built with Vite, React, TypeScript, Tailwind CSS, and shadcn-ui.
+This is the GoYa web application built with Vite, React, TypeScript, Tailwind CSS, and shadcn-ui.
 
 ## Quick start
 
