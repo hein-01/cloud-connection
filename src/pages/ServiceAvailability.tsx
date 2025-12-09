@@ -607,7 +607,7 @@ export default function ServiceAvailability(props: ServiceAvailabilityProps) {
         <Navbar />
       </div>
       
-      <div className="max-w-6xl w-full mx-auto p-4 md:p-8 md:pt-24 space-y-6">
+      <div className="max-w-6xl w-full mx-auto p-4 md:p-8 md:pt-24 space-y-6 pb-32 md:pb-28">
         {/* Service Rules Card */}
         {serviceRules && (
           <Card className="shadow-lg border-primary/10">
@@ -792,8 +792,8 @@ export default function ServiceAvailability(props: ServiceAvailabilityProps) {
         </Card>
       </div>
 
-      {/* Sticky footer / checkout with shadow */}
-      <div className="sticky bottom-0 left-0 right-0 bg-primary text-primary-foreground shadow-2xl border-t border-primary/20">
+      {/* Fixed footer / checkout with shadow */}
+      <div className="fixed bottom-16 md:bottom-0 left-0 right-0 bg-primary text-primary-foreground shadow-2xl border-t border-primary/20 z-40">
         <div className="max-w-6xl w-full mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 px-4 md:px-8 py-4">
           <div className="text-center sm:text-left">
             <div className="text-xs tracking-wide opacity-90 uppercase">Total Charges</div>
